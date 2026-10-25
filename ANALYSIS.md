@@ -42,7 +42,41 @@ The implementation was checked using the provided public tests. Additional testi
 
 ## 8. Benchmark Results
 
-Benchmark measurements comparing Kruskal's and Prim's algorithms must be recorded after running both algorithms on the same graphs at three different sizes. At least three timings per algorithm should be collected for each size, and the median should be reported.
+### Environment and methodology
+
+- Language: Python 3.14.3
+- Platform: Windows 11, build 26200
+- Timer: `time.perf_counter()`
+- Random generator: Python `random.Random`
+- Graph seeds: 3538, 5538 and 8538 (base seed 2538 plus n)
+- Warm-up: one execution of each algorithm on each graph, excluded from measurements
+- Repetitions: three measurements per algorithm for each graph
+- Timing boundary: algorithm execution only; graph generation is excluded
+- Graphs are generated once and reused by both algorithms.
+
+### Measurements
+
+| Vertices (n) | Edges (m) | Kruskal runs (seconds) | Kruskal median (seconds) | Prim runs (seconds) | Prim median (seconds) |
+|---:|---:|---|---:|---|---:|
+| 1000 | 2999 | 0.004598, 0.005314, 0.005627 | 0.005314 | 0.006162, 0.005625, 0.005580 | 0.005625 |
+| 3000 | 8999 | 0.016615, 0.017169, 0.016884 | 0.016884 | 0.026303, 0.021861, 0.027270 | 0.026303 |
+| 6000 | 17999 | 0.058946, 0.056664, 0.044005 | 0.056664 | 0.077140, 0.072358, 0.054034 | 0.072358 |
+
+### Correctness checks
+
+For each graph, both algorithms returned the same minimum cost and component count. The selected forest contained n - components edges.
+
+| n | Minimum cost | Components |
+|---:|---:|---:|
+| 1000 | 204458 | 1 |
+| 3000 | 591462 | 1 |
+| 6000 | 1193201 | 1 |
+
+### Observations and limitations
+
+Kruskal was faster than Prim in these three measurements. Both algorithms took longer on larger graphs. These results apply only to the tested graph generator, graph sizes and runtime environment. They do not establish that one algorithm is always faster.
+
+
 
 ## 9. Conclusion
 
